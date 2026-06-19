@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/api/activities", "dest": "/api-activities.js" },
+    { "src": "/api/partners", "dest": "/api-partners.js" },
+    { "src": "/api/admin-login", "dest": "/api-adminlogin.js" },
+    { "src": "/api/adminlogin", "dest": "/api-adminlogin.js" },
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/admin/", "dest": "/admin.html" },
+    { "src": "/style\\.css", "dest": "/style.css" },
+    { "src": "/app\\.js", "dest": "/app.js" },
+    { "src": "/", "dest": "/index.html" }
+  ]
+}
