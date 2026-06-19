@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FamilienKompass Dresden</title>
+<meta name="description" content="Täglich neue Ideen für Familienausflüge in Dresden und Umgebung.">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="stars"></div>
+  <div class="logo-wrap">
+    <span class="logo-icon">🧭</span>
+    <h1>Familien<span>Kompass</span></h1>
+    <p class="header-sub">Täglich neue Ideen für Familien in Dresden &amp; Umgebung</p>
+    <div class="header-meta">
+      <span class="meta-pill" id="date-pill">📅 …</span>
+      <span class="meta-pill">📍 Dresden – bis 200 km</span>
+      <span class="meta-pill" id="age-pill">👧 Alle Alter</span>
+    </div>
+  </div>
+</header>
+
+<div id="weather-bar">
+  <div class="weather-card">
+    <div class="w-icon" id="w-icon">⏳</div>
+    <div class="weather-info"><h3 id="w-desc">Wetter wird geladen…</h3><p id="w-detail">Bitte warten</p></div>
+    <span class="w-badge w-mix" id="w-badge">📍 Dresden</span>
+  </div>
+</div>
+
+<div class="week-strip"><div class="week-inner" id="week-strip"></div></div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="today">📅 Tagesansicht</button>
+    <button class="tab-btn" data-tab="month">🗓️ Monatsplanung</button>
+    <button class="tab-btn" data-tab="partner">🤝 Anbieter eintragen</button>
+  </div>
+</div>
+
+<main>
+<div class="filter-panel" id="filter-panel">
+  <div class="fp-row">
+    <span class="fp-label">Kategorie</span>
+    <div class="chips" id="cat-chips">
+      <button class="chip on" data-cat="alle">🎉 Alle</button>
+      <button class="chip" data-cat="natur">🌿 Natur</button>
+      <button class="chip" data-cat="kultur">🎭 Kultur</button>
+      <button class="chip" data-cat="sport">⚡ Sport</button>
+      <button class="chip" data-cat="kreativ">🎨 Kreativ</button>
+      <button class="chip" data-cat="event">🎪 Events</button>
+      <button class="chip" data-cat="ausflug">🚗 Ausflug</button>
+      <button class="chip" data-cat="camping">⛺ Camping</button>
+    </div>
+  </div>
+  <div class="fp-row">
+    <span class="fp-label">Kosten</span>
+    <div class="chips">
+      <button class="chip cf" data-x="kostenlos">✅ Kostenlos</button>
+      <button class="chip cp" data-x="bezahlt">🎟️ Mit Eintritt</button>
+      <button class="chip co" data-x="outdoor">☀️ Draußen</button>
+      <button class="chip ci" data-x="indoor">🏠 Drinnen</button>
+    </div>
+  </div>
+  <div class="fp-row">
+    <span class="fp-label">👧 Alter</span>
+    <div class="age-wrap">
+      <div class="age-range">
+        <span class="age-lbl">von</span>
+        <select class="age-sel" id="age-from">
+          <option value="0">0 J.</option><option value="1">1 J.</option><option value="2">2 J.</option>
+          <option value="3">3 J.</option><option value="4" selected>4 J.</option><option value="5">5 J.</option>
+          <option value="6">6 J.</option><option value="7">7 J.</option><option value="8">8 J.</option>
+          <option value="10">10 J.</option><option value="12">12 J.</option><option value="14">14 J.</option>
+        </select>
+        <span class="age-sep">–</span>
+        <span class="age-lbl">bis</span>
+        <select class="age-sel" id="age-to">
+          <option value="2">2 J.</option><option value="4">4 J.</option><option value="6">6 J.</option>
+          <option value="8" selected>8 J.</option><option value="10">10 J.</option><option value="12">12 J.</option>
+          <option value="14">14 J.</option><option value="16">16 J.</option>
+        </select>
+      </div>
+      <button class="age-all on" id="age-all-btn" onclick="toggleAgeAll()">👨‍👩‍👧 Alle Alter</button>
+      <span class="age-prev" id="age-prev">Alle Altersgruppen</span>
+    </div>
+  </div>
+  <div class="fp-row rad-section">
+    <div class="rad-top">
+      <span class="fp-label">🗺️ Radius</span>
+      <span class="rad-val" id="rad-val">50 km</span>
+      <input type="range" id="rad-slider" min="0" max="200" step="10" value="50">
+    </div>
+    <div class="rad-marks">
+      <span class="rm" data-km="0">Dresden</span>
+      <span class="rm" data-km="30">30 km</span>
+      <span class="rm on" data-km="50">50 km</span>
+      <span class="rm" data-km="80">80 km</span>
+      <span class="rm" data-km="120">120 km</span>
+      <span class="rm" data-km="150">150 km</span>
+      <span class="rm" data-km="200">200 km</span>
+    </div>
+  </div>
+</div>
+
+<div class="gen-wrap" id="gen-wrap">
+  <button id="gen-btn" onclick="generate()">✨ Ideen laden</button>
+</div>
+
+<!-- TODAY -->
+<div id="today-view">
+  <div class="loading-wrap" id="loading">
+    <div class="dots"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div></div>
+    <p id="ltxt">Suche tolle Ideen…</p>
+  </div>
+  <div id="act-grid">
+    <div class="empty-state"><div class="eicon">🗺️</div><h3>Bereit fürs Abenteuer!</h3><p>Wähle einen Tag und klick auf „Ideen laden".</p></div>
+  </div>
+</div>
+
+<!-- MONTH -->
+<div id="month-view">
+  <div class="mhdr">
+    <button class="mnav" id="prev-m">◀</button>
+    <span class="mtitle" id="mtitle"></span>
+    <button class="mnav" id="next-m">▶</button>
+  </div>
+  <div class="cgrid" id="cgrid"></div>
+  <p class="cal-hint">Klick auf einen Tag → Ideen für diesen Tag laden</p>
+</div>
+
+<!-- PARTNER -->
+<div id="partner-view">
+  <div class="pform-card">
+    <h2>🤝 Als Anbieter eintragen</h2>
+    <p>Ihr bietet Events, Ausflugsziele, Workshops oder Campingplätze für Familien an? Tragt euch kostenlos ein – oder bucht ein <strong>gesponsertes Listing</strong> mit exklusivem Promo-Code.</p>
+    <div class="promo-info-box">
+      <h4>💰 So funktioniert die Monetarisierung</h4>
+      <p><strong>Basis-Listing kostenlos</strong> – erscheint in den täglichen Suchergebnissen.<br>
+      <strong>Gesponsertes Listing ab 29€/Monat</strong> – ⭐ Badge, exklusiver Promo-Code, Vorrang in der Anzeige.<br>
+      Ihr zahlt nur Provision bei echten Buchungen über den Code.</p>
+    </div>
+    <div class="fgrid" id="pform-fields">
+      <div class="fg"><label>Firmenname / Anbieter *</label><input id="f-name" placeholder="z.B. Kletterpark Pirna GmbH"></div>
+      <div class="fg"><label>Kategorie *</label>
+        <select id="f-cat">
+          <option value="">– Wählen –</option>
+          <option>Natur &amp; Outdoor</option><option>Kultur &amp; Museum</option>
+          <option>Sport &amp; Klettern</option><option>Kreativ &amp; Workshops</option>
+          <option>Events &amp; Feste</option><option>Ausflugsziel</option><option>Camping &amp; Übernachten</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Beschreibung *</label><textarea id="f-desc" placeholder="Was bietet ihr an? Was erleben Familien bei euch?"></textarea></div>
+      <div class="fg"><label>Ort / Adresse *</label><input id="f-loc" placeholder="z.B. Am Berg 1, 01796 Pirna"></div>
+      <div class="fg"><label>Entfernung von Dresden (km)</label><input type="number" id="f-dist" placeholder="z.B. 25" min="0" max="200"></div>
+      <div class="fg"><label>Preis / Eintritt</label><input id="f-price" placeholder="z.B. ab 8€ p.P. | kostenlos"></div>
+      <div class="fg"><label>Webseite / Buchungslink</label><input type="url" id="f-url" placeholder="https://eurewebseite.de"></div>
+      <div class="fg full"><label>Geeignetes Kindesalter</label>
+        <div class="age-cbs" id="f-ages">
+          <label class="acbl"><input type="checkbox" value="0-3"> 0–3 J.</label>
+          <label class="acbl"><input type="checkbox" value="4-6"> 4–6 J.</label>
+          <label class="acbl"><input type="checkbox" value="7-10"> 7–10 J.</label>
+          <label class="acbl"><input type="checkbox" value="11-14"> 11–14 J.</label>
+          <label class="acbl"><input type="checkbox" value="14-16"> 14–16 J.</label>
+          <label class="acbl"><input type="checkbox" value="alle"> Alle Alter</label>
+        </div>
+      </div>
+      <div class="fg full"><label>Gewünschter Promo-Code (für gesponsertes Listing)</label>
+        <input id="f-promo" placeholder="z.B. KLETTERPARK10 – wir melden uns wegen Konditionen"></div>
+      <div class="fg"><label>Ansprechpartner</label><input id="f-contact" placeholder="Vor- und Nachname"></div>
+      <div class="fg"><label>E-Mail *</label><input type="email" id="f-email" placeholder="kontakt@eurewebseite.de"></div>
+    </div>
+    <button class="sbtn" onclick="submitPartner()">✅ Kostenlos eintragen</button>
+  </div>
+  <div class="succbox" id="succbox">
+    <div class="si">🎉</div>
+    <h3>Erfolgreich eingegangen!</h3>
+    <p>Vielen Dank! Wir melden uns innerhalb von 48 Stunden.<br>Nach Prüfung wird euer Listing aktiviert.</p>
+  </div>
+</div>
+</main>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
