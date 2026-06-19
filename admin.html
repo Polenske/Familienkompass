@@ -214,23 +214,12 @@ if (token) showAdmin();
 async function doLogin() {
   const pw = document.getElementById('pw-input').value;
   if (!pw) return;
-  try {
-    const r = await fetch(`${API}/api/admin-login`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ password: pw })
-    });
-    if (r.ok) {
-      const d = await r.json();
-      token = d.token;
-      sessionStorage.setItem('fk_admin_token', token);
-      showAdmin();
-    } else {
-      document.getElementById('login-err').style.display = 'block';
-    }
-  } catch {
-    // Fallback: demo mode if API not available
-    if (pw === 'admin123') { token = 'demo'; showAdmin(); }
-    else document.getElementById('login-err').style.display = 'block';
+  if (pw === 'Palina22072020!') {
+    token = 'fk-admin-ok';
+    sessionStorage.setItem('fk_admin_token', token);
+    showAdmin();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
   }
 }
 
